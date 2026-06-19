@@ -1,0 +1,9 @@
+{
+  "description": "项目私有配置",
+  "projectname": "wordphoto-app",
+  "setting": {
+    "compileHotReLoad": true
+  },
+  "libVersion": "3.4.0",
+  "appid": "wx06a7475f7b90face"
+}

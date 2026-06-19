@@ -1,0 +1,61 @@
+<!-- 识别结果页 -->
+
+<!-- 加载状态 -->
+<view wx:if="{{status === 'loading'}}" class="loading-container">
+  <image src="/images/loading.gif" mode="aspectFit" style="width: 160rpx; height: 160rpx;"></image>
+  <text class="loading-text">正在识别图片中的英文单词...</text>
+</view>
+
+<!-- 错误状态 -->
+<view wx:elif="{{status === 'error'}}" class="error-container">
+  <text class="error-icon">⚠️</text>
+  <text class="error-text">{{errorMsg}}</text>
+  <view class="retry-btn" bindtap="onRetry">重新选择图片</view>
+</view>
+
+<!-- 识别结果列表 -->
+<view wx:elif="{{status === 'ready'}}" class="result-container">
+  <!-- 工具栏 -->
+  <view class="toolbar">
+    <view class="toolbar-left">
+      <checkbox class="select-all-checkbox" checked="{{allChecked}}" bindtap="onToggleAll" />
+      <text wx:if="{{allChecked}}">取消全选</text>
+      <text wx:else>全选</text>
+      <text class="selected-count">（已选 {{wordList.filter(i => i.checked).length}} 项）</text>
+    </view>
+    <view class="toolbar-right">
+      <text class="toolbar-btn">共 {{wordList.length}} 词</text>
+    </view>
+  </view>
+
+  <!-- 单词列表（滚动区域） -->
+  <scroll-view class="word-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view wx:for="{{wordList}}" wx:key="index">
+      <view class="word-card">
+        <!-- 复选框 -->
+        <checkbox class="word-checkbox" checked="{{item.checked}}" data-index="{{index}}" bindtap="onToggleItem" />
+
+        <!-- 单词和释义 -->
+        <view class="word-content">
+          <text class="word-text">{{item.word}}</text>
+          <text class="word-meaning">{{item.meaning || '暂无释义'}}</text>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="word-actions">
+          <text class="word-action-btn" data-index="{{index}}" bindtap="onEditWord">改词</text>
+          <text class="word-action-btn" data-index="{{index}}" bindtap="onEditMeaning">释义</text>
+          <text class="word-action-btn word-action-btn-danger" data-index="{{index}}" bindtap="onDeleteWord">删除</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部留白 -->
+    <view style="height: 20rpx;"></view>
+  </scroll-view>
+
+  <!-- 底部导出按钮 -->
+  <view class="bottom-bar">
+    <view class="export-btn" bindtap="onGoExport">导出选中单词（{{wordList.filter(i => i.checked).length}}）</view>
+  </view>
+</view>

@@ -1,0 +1,25 @@
+<!-- 首页 -->
+<view class="page-container">
+  <view class="header-area">
+    <text class="app-title">📷 拍照识词</text>
+    <text class="app-subtitle">拍照/选图 → 自动识别英文单词 → 导出到背词软件</text>
+  </view>
+
+  <view class="button-group">
+    <!-- 拍照按钮 -->
+    <button class="action-btn action-btn-primary" bindtap="onTakePhoto">
+      <image class="btn-icon" src="/images/icon-camera.png" mode="aspectFit"></image>
+      拍照识别
+    </button>
+
+    <!-- 相册选择按钮 -->
+    <button class="action-btn action-btn-secondary" bindtap="onSelectFromAlbum">
+      <image class="btn-icon" src="/images/icon-album.png" mode="aspectFit"></image>
+      从相册选择
+    </button>
+  </view>
+
+  <view class="footer-info">
+    <text>支持 JPG/PNG 格式图片</text>
+  </view>
+</view>

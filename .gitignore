@@ -1,0 +1,25 @@
+# Python (参考后端)
+__pycache__/
+*.pyc
+*.pyo
+backend/uploads/
+backend/exports/
+backend/data/stardict.db
+backend/data/data_report.json
+backend/data/ecdict.zip
+
+# 云开发
+cloudfunctions/*/node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 小程序
+miniprogram/.miniprogram/

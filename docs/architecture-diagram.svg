@@ -1,0 +1,240 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 820" width="960" height="820" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="layer1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="layer2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="layer3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="layer4" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="layer5" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="layer6" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#db2777"/>
+    </linearGradient>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.12"/>
+    </filter>
+    <filter id="shadowLight" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="820" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- Title -->
+  <text x="480" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">拍照识词导出助手 — 产品技术架构图</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#94a3b8">WordPhoto Export Assistant — System Architecture</text>
+
+  <!-- ====== Layer 1: 用户层 ====== -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="80" width="900" height="95" rx="8" fill="#fff" stroke="#bfdbfe" stroke-width="1.5"/>
+    <rect x="30" y="80" width="6" height="95" rx="3" fill="url(#layer1)"/>
+    <text x="50" y="102" font-size="14" font-weight="700" fill="#1e40af">用户层 User Layer</text>
+    <text x="50" y="120" font-size="11" fill="#64748b">微信小程序客户端 · 原生框架 · iOS / Android</text>
+  </g>
+  <!-- Layer 1 sub-boxes -->
+  <g filter="url(#shadowLight)">
+    <rect x="60" y="128" width="130" height="36" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+    <text x="125" y="150" text-anchor="middle" font-size="12" fill="#1e40af">📷 拍照识别</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="202" y="128" width="130" height="36" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+    <text x="267" y="150" text-anchor="middle" font-size="12" fill="#1e40af">🖼️ 相册选择</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="344" y="128" width="150" height="36" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+    <text x="419" y="150" text-anchor="middle" font-size="12" fill="#1e40af">📋 结果展示与编辑</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="506" y="128" width="130" height="36" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+    <text x="571" y="150" text-anchor="middle" font-size="12" fill="#1e40af">📦 多格式导出</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="648" y="128" width="130" height="36" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+    <text x="713" y="150" text-anchor="middle" font-size="12" fill="#1e40af">🔗 下载链接</text>
+  </g>
+
+  <!-- Arrow Layer 1 → Layer 2 -->
+  <line x1="480" y1="175" x2="480" y2="200" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- ====== Layer 2: 接入层 ====== -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="202" width="900" height="80" rx="8" fill="#fff" stroke="#c7d2fe" stroke-width="1.5"/>
+    <rect x="30" y="202" width="6" height="80" rx="3" fill="url(#layer2)"/>
+    <text x="50" y="224" font-size="14" font-weight="700" fill="#3730a3">接入层 Access Layer</text>
+    <text x="50" y="242" font-size="11" fill="#64748b">Nginx HTTPS 反向代理 · 微信云函数 · API Gateway</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="60" y="248" width="200" height="26" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
+    <text x="160" y="266" text-anchor="middle" font-size="11" fill="#3730a3">🔒 SSL/TLS 加密 · 证书管理</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="275" y="248" width="200" height="26" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
+    <text x="375" y="266" text-anchor="middle" font-size="11" fill="#3730a3">📡 请求路由 · 限流 · CORS</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="490" y="248" width="200" height="26" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
+    <text x="590" y="266" text-anchor="middle" font-size="11" fill="#3730a3">📁 静态文件服务 (exports/)</text>
+  </g>
+
+  <!-- Arrow Layer 2 → Layer 3 -->
+  <line x1="480" y1="282" x2="480" y2="307" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- ====== Layer 3: 服务层 ====== -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="309" width="900" height="95" rx="8" fill="#fff" stroke="#a7f3d0" stroke-width="1.5"/>
+    <rect x="30" y="309" width="6" height="95" rx="3" fill="url(#layer3)"/>
+    <text x="50" y="331" font-size="14" font-weight="700" fill="#065f46">服务层 Service Layer</text>
+    <text x="50" y="349" font-size="11" fill="#64748b">Python FastAPI · Uvicorn ASGI · RESTful API</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="60" y="358" width="180" height="36" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+    <text x="150" y="372" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">/ocr/recognize</text>
+    <text x="150" y="387" text-anchor="middle" font-size="10" fill="#64748b">POST · 图片OCR识别</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="255" y="358" width="180" height="36" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+    <text x="345" y="372" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">/export/generate</text>
+    <text x="345" y="387" text-anchor="middle" font-size="10" fill="#64748b">POST · 9种格式导出</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="450" y="358" width="140" height="36" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+    <text x="520" y="372" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">/health</text>
+    <text x="520" y="387" text-anchor="middle" font-size="10" fill="#64748b">GET · 健康检查</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="605" y="358" width="140" height="36" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+    <text x="675" y="372" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">/downloads</text>
+    <text x="675" y="387" text-anchor="middle" font-size="10" fill="#64748b">静态文件下载</text>
+  </g>
+
+  <!-- Arrow Layer 3 → Layer 4 -->
+  <line x1="480" y1="404" x2="480" y2="429" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- ====== Layer 4: 引擎层 ====== -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="431" width="900" height="110" rx="8" fill="#fff" stroke="#fde68a" stroke-width="1.5"/>
+    <rect x="30" y="431" width="6" height="110" rx="3" fill="url(#layer4)"/>
+    <text x="50" y="453" font-size="14" font-weight="700" fill="#92400e">引擎层 Engine Layer</text>
+    <text x="50" y="471" font-size="11" fill="#64748b">AI/ML 核心处理引擎 · 离线可用 · 开源模型</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="60" y="480" width="280" height="50" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="1"/>
+    <text x="200" y="498" text-anchor="middle" font-size="12" font-weight="600" fill="#92400e">🧠 PaddleOCR PP-OCRv3</text>
+    <text x="200" y="515" text-anchor="middle" font-size="10" fill="#64748b">DB检测 + SVTR识别 · 英文 · 80+语种 · Apache 2.0</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="355" y="480" width="260" height="50" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="1"/>
+    <text x="485" y="498" text-anchor="middle" font-size="12" font-weight="600" fill="#92400e">🔤 spaCy NLP + NLTK WordNet</text>
+    <text x="485" y="515" text-anchor="middle" font-size="10" fill="#64748b">词形还原 · 词性标注 · 同义词/反义词 · 语义分析</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="630" y="480" width="280" height="50" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="1"/>
+    <text x="770" y="498" text-anchor="middle" font-size="12" font-weight="600" fill="#92400e">📖 9格式导出引擎</text>
+    <text x="770" y="515" text-anchor="middle" font-size="10" fill="#64748b">TXT · CSV · Anki · XML · 墨墨 · 不背 · 欧路 · 百词斩 · 有道 · Quizlet</text>
+  </g>
+
+  <!-- Arrow Layer 4 → Layer 5 -->
+  <line x1="480" y1="541" x2="480" y2="566" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- ====== Layer 5: 数据层 ====== -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="568" width="900" height="95" rx="8" fill="#fff" stroke="#ddd6fe" stroke-width="1.5"/>
+    <rect x="30" y="568" width="6" height="95" rx="3" fill="url(#layer5)"/>
+    <text x="50" y="590" font-size="14" font-weight="700" fill="#5b21b6">数据层 Data Layer</text>
+    <text x="50" y="608" font-size="11" fill="#64748b">ECDICT 开源英汉词典 · SQLite · 150万词条 · 18字段</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="60" y="618" width="180" height="36" rx="6" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+    <text x="150" y="632" text-anchor="middle" font-size="11" font-weight="600" fill="#5b21b6">📋 word / sw / phonetic</text>
+    <text x="150" y="647" text-anchor="middle" font-size="10" fill="#64748b">单词 · 标准化 · 音标</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="252" y="618" width="180" height="36" rx="6" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+    <text x="342" y="632" text-anchor="middle" font-size="11" font-weight="600" fill="#5b21b6">📝 translation / definition / pos</text>
+    <text x="342" y="647" text-anchor="middle" font-size="10" fill="#64748b">释义 · 词性 · 义项</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="444" y="618" width="180" height="36" rx="6" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+    <text x="534" y="632" text-anchor="middle" font-size="11" font-weight="600" fill="#5b21b6">⭐ collins / oxford / tag</text>
+    <text x="534" y="647" text-anchor="middle" font-size="10" fill="#64748b">星级 · 核心词汇 · 考试标签</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="636" y="618" width="140" height="36" rx="6" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+    <text x="706" y="632" text-anchor="middle" font-size="11" font-weight="600" fill="#5b21b6">📊 bnc / frq / exchange</text>
+    <text x="706" y="647" text-anchor="middle" font-size="10" fill="#64748b">词频 · 变形</text>
+  </g>
+
+  <!-- Arrow Layer 5 → Layer 6 -->
+  <line x1="480" y1="663" x2="480" y2="688" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- ====== Layer 6: 输出层 ====== -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="690" width="900" height="95" rx="8" fill="#fff" stroke="#fbcfe8" stroke-width="1.5"/>
+    <rect x="30" y="690" width="6" height="95" rx="3" fill="url(#layer6)"/>
+    <text x="50" y="712" font-size="14" font-weight="700" fill="#9d174d">输出层 Output Layer</text>
+    <text x="50" y="730" font-size="11" fill="#64748b">9种格式 · 7大背词App全覆盖 · 一键导入</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="60" y="742" width="130" height="34" rx="6" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1"/>
+    <text x="125" y="763" text-anchor="middle" font-size="11" fill="#9d174d">TXT · 通用</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="200" y="742" width="130" height="34" rx="6" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1"/>
+    <text x="265" y="763" text-anchor="middle" font-size="11" fill="#9d174d">CSV · Anki</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="340" y="742" width="130" height="34" rx="6" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1"/>
+    <text x="405" y="763" text-anchor="middle" font-size="11" fill="#9d174d">TXT · 墨墨/不背</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="480" y="742" width="130" height="34" rx="6" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1"/>
+    <text x="545" y="763" text-anchor="middle" font-size="11" fill="#9d174d">XML · 欧路/有道</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="620" y="742" width="130" height="34" rx="6" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1"/>
+    <text x="685" y="763" text-anchor="middle" font-size="11" fill="#9d174d">TXT · 百词斩</text>
+  </g>
+  <g filter="url(#shadowLight)">
+    <rect x="760" y="742" width="130" height="34" rx="6" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1"/>
+    <text x="825" y="763" text-anchor="middle" font-size="11" fill="#9d174d">CSV · Quizlet</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(30, 795)">
+    <text x="0" y="12" font-size="10" fill="#94a3b8">图例:</text>
+    <rect x="40" y="2" width="10" height="10" rx="2" fill="url(#layer1)"/>
+    <text x="55" y="12" font-size="10" fill="#64748b">用户</text>
+    <rect x="90" y="2" width="10" height="10" rx="2" fill="url(#layer2)"/>
+    <text x="105" y="12" font-size="10" fill="#64748b">接入</text>
+    <rect x="140" y="2" width="10" height="10" rx="2" fill="url(#layer3)"/>
+    <text x="155" y="12" font-size="10" fill="#64748b">服务</text>
+    <rect x="190" y="2" width="10" height="10" rx="2" fill="url(#layer4)"/>
+    <text x="205" y="12" font-size="10" fill="#64748b">引擎</text>
+    <rect x="240" y="2" width="10" height="10" rx="2" fill="url(#layer5)"/>
+    <text x="255" y="12" font-size="10" fill="#64748b">数据</text>
+    <rect x="290" y="2" width="10" height="10" rx="2" fill="url(#layer6)"/>
+    <text x="305" y="12" font-size="10" fill="#64748b">输出</text>
+  </g>
+</svg>
