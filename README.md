@@ -131,7 +131,7 @@ wordphoto-app/
 ### 步骤 1：克隆项目
 
 ```bash
-git clone https://github.com/feilun/wordphoto-app.git
+git clone https://github.com/xiechun-pm/wordphoto-app.git
 cd wordphoto-app
 ```
 
