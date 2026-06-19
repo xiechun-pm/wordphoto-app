@@ -21,7 +21,7 @@
       <checkbox class="select-all-checkbox" checked="{{allChecked}}" bindtap="onToggleAll" />
       <text wx:if="{{allChecked}}">取消全选</text>
       <text wx:else>全选</text>
-      <text class="selected-count">（已选 {{wordList.filter(i => i.checked).length}} 项）</text>
+      <text class="selected-count">（已选 {{checkedCount}} 项）</text>
     </view>
     <view class="toolbar-right">
       <text class="toolbar-btn">共 {{wordList.length}} 词</text>
@@ -56,6 +56,6 @@
 
   <!-- 底部导出按钮 -->
   <view class="bottom-bar">
-    <view class="export-btn" bindtap="onGoExport">导出选中单词（{{wordList.filter(i => i.checked).length}}）</view>
+    <view class="export-btn" bindtap="onGoExport">导出选中单词（{{checkedCount}}）</view>
   </view>
 </view>

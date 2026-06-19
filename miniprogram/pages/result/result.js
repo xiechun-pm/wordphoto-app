@@ -12,6 +12,8 @@ Page({
     errorMsg: '',
     // 单词列表 [{word, meaning, checked}]
     wordList: [],
+    // 已选数量
+    checkedCount: 0,
     // 是否全选
     allChecked: false,
     // 原始图片路径
@@ -97,6 +99,7 @@ Page({
         status: 'ready',
         wordList,
         allChecked: true,
+        checkedCount: wordList.length,
       });
 
     } catch (err) {
@@ -128,15 +131,18 @@ Page({
       ...item,
       checked: newChecked,
     }));
-    this.setData({ wordList, allChecked: newChecked });
+    const checkedCount = newChecked ? wordList.length : 0;
+    this.setData({ wordList, allChecked: newChecked, checkedCount });
   },
 
   /**
    * 更新全选状态
    */
   _updateAllChecked() {
-    const allChecked = this.data.wordList.every((item) => item.checked);
-    this.setData({ allChecked });
+    const wordList = this.data.wordList;
+    const allChecked = wordList.length > 0 && wordList.every((item) => item.checked);
+    const checkedCount = wordList.filter((item) => item.checked).length;
+    this.setData({ allChecked, checkedCount });
   },
 
   /**
