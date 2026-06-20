@@ -1,85 +1,124 @@
 /**
- * API 请求封装工具 · 基于云开发云函数调用
- * 所有后端能力通过 wx.cloud.callFunction() 调用
- */
-
-/**
- * 通用云函数调用封装
- * @param {string} name   - 云函数名称
- * @param {object} data   - 传入参数
- * @returns {Promise}
- */
-const callFunction = (name, data = {}) => {
-  return new Promise((resolve, reject) => {
-    wx.cloud.callFunction({
-      name,
-      data,
-      success: (res) => {
-        resolve(res.result);
-      },
-      fail: (err) => {
-        console.error(`[CloudFunc] ${name} 调用失败:`, err);
-        reject(new Error(err.errMsg || '云函数调用失败'));
-      },
-    });
-  });
-};
-
-/**
- * OCR 识别 — 先上传图片到云存储，再调用云函数识别
- * 流程：选择图片 → 上传到云存储 → 调用 ocr 云函数 → 返回结果
+ * API 请求封装工具 · 本地离线版本
  * 
- * @param {string} filePath - 图片临时路径
- * @returns {Promise}
+ * 所有后端能力已从云函数迁移到本地模块：
+ *   - OCR 识别：返回演示模式数据（无需云开发）
+ *   - 词典查词：委托给本地 dict.js 模块
+ *   - 导出文件：委托给本地 export.js 模块
+ * 
+ * 所有函数均返回 Promise，与原有云函数调用保持一致的接口风格
  */
-const recognizeImage = async (filePath) => {
-  // 1. 上传图片到云存储
-  const timestamp = Date.now();
-  const cloudPath = `ocr_images/${timestamp}_${Math.random().toString(36).slice(2, 8)}.jpg`;
-  
-  const uploadRes = await new Promise((resolve, reject) => {
-    wx.cloud.uploadFile({
-      cloudPath,
-      filePath,
-      success: resolve,
-      fail: reject,
+
+// 引入本地模块
+var dict = require('./dict');
+var exportUtil = require('./export');
+
+/**
+ * OCR 图片识别（演示模式）
+ * 
+ * 由于已移除云开发依赖，此函数返回演示模式结果，
+ * 调用方可据此判断当前处于离线/演示模式并展示示例数据
+ * 
+ * @param {string} filePath - 图片临时路径（演示模式下不使用）
+ * @returns {Promise<Object>} { code: 0, data: { words: [], demo_mode: true, hint: '演示模式' } }
+ */
+function recognizeImage(filePath) {
+  return Promise.resolve({
+    code: 0,
+    data: {
+      // 演示模式下不返回 OCR 识别结果
+      words: [],
+      // 标记为演示模式，供调用方判断
+      demo_mode: true,
+      // 提示信息
+      hint: '演示模式',
+    },
+  });
+}
+
+/**
+ * 词典查词（本地）
+ * 
+ * 调用本地 dict.js 模块的 lookupBatch 函数进行单词查询，
+ * 将结果包装为与云函数一致的返回格式
+ * 
+ * @param {Array<string>} words - 待查询的单词数组
+ * @returns {Promise<Object>} { code: 0, data: { meanings, not_found, total, matched } }
+ */
+function dictLookup(words) {
+  return new Promise(function (resolve) {
+    // 调用本地词典模块进行批量查询
+    var result = dict.lookupBatch(words);
+    
+    // 包装为统一响应格式
+    resolve({
+      code: 0,
+      data: {
+        // 单词到释义的映射表
+        meanings: result.meanings,
+        // 未找到释义的单词列表
+        not_found: result.notFound,
+        // 查询总数
+        total: words.length,
+        // 匹配成功数量
+        matched: Object.keys(result.meanings).length,
+      },
     });
   });
-
-  // 2. 调用 OCR 云函数
-  return callFunction('ocr', { fileID: uploadRes.fileID });
-};
+}
 
 /**
- * 词典查词 — 批量查询单词释义
- * @param {Array} words - 单词列表
- * @returns {Promise}
+ * 导出文件生成（本地）
+ * 
+ * 调用本地 export.js 模块的 generateExport 函数生成文件内容，
+ * 将结果包装为与云函数一致的返回格式
+ * 
+ * @param {string} format - 导出格式（txt/csv/anki/momo/bubei/eudic/baicizhan/youdao/quizlet）
+ * @param {Array<Object>} words - 单词数组 [{word: string, meaning: string}, ...]
+ * @returns {Promise<Object>} { code: 0, data: { format, word_count, content, filename } }
  */
-const dictLookup = (words) => {
-  return callFunction('dictLookup', { words });
-};
+function generateExport(format, words) {
+  return new Promise(function (resolve, reject) {
+    try {
+      // 调用本地导出模块生成文件内容
+      var result = exportUtil.generateExport(format, words);
+      
+      // 包装为统一响应格式
+      resolve({
+        code: 0,
+        data: {
+          // 导出格式标识
+          format: format,
+          // 单词数量
+          word_count: words.length,
+          // 文件内容字符串
+          content: result.content,
+          // 文件名
+          filename: result.filename,
+        },
+      });
+    } catch (err) {
+      // 捕获导出过程中的错误
+      reject(err);
+    }
+  });
+}
 
 /**
- * 导出文件生成 — 调用云函数生成并返回下载链接
- * @param {string} format - 导出格式
- * @param {Array} words   - 单词列表 [{word, meaning}, ...]
- * @returns {Promise}
+ * 健康检查
+ * 
+ * 由于已移除云开发依赖，始终返回成功状态
+ * 
+ * @returns {Promise<Object>} { code: 0 }
  */
-const generateExport = (format, words) => {
-  return callFunction('export', { format, words });
-};
+function healthCheck() {
+  return Promise.resolve({ code: 0 });
+}
 
-/**
- * 健康检查 — 验证云开发环境是否可用
- * @returns {Promise}
- */
-const healthCheck = () => {
-  return callFunction('dictLookup', { words: ['test'] });
-};
-
+// 导出所有 API 函数
 module.exports = {
-  recognizeImage,
-  dictLookup,
-  generateExport,
-  healthCheck,
+  recognizeImage: recognizeImage,
+  dictLookup: dictLookup,
+  generateExport: generateExport,
+  healthCheck: healthCheck,
 };
