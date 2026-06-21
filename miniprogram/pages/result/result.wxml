@@ -14,7 +14,11 @@
 </view>
 
 <!-- 识别结果列表 -->
-<view wx:elif="{{status === 'ready'}}" class="result-container">
+<view wx:elif="{{status === 'ready' || status === 'demo'}}" class="result-container">
+  <!-- 演示模式提示 -->
+  <view wx:if="{{demoMode}}" class="demo-notice">
+    <text>{{noticeMsg}}</text>
+  </view>
   <!-- 工具栏 -->
   <view class="toolbar">
     <view class="toolbar-left">

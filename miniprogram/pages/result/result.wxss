@@ -51,6 +51,17 @@
   text-align: center;
 }
 
+/* 演示模式提示条 */
+.demo-notice {
+  padding: 16rpx 28rpx;
+  background: #fff3cd;
+  border-bottom: 2rpx solid #ffc107;
+  font-size: 22rpx;
+  color: #856404;
+  line-height: 1.5;
+  text-align: center;
+}
+
 /* 结果列表区域 */
 .result-container {
   display: flex;

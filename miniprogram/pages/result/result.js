@@ -1,15 +1,22 @@
 /**
  * 识别结果页
- * 接收图片路径 → 检测演示模式 → 展示示例单词并调用本地词典查词 → 展示单词列表
+ * 接收图片路径 → OCR 识别英文单词 → 本地词典查词 → 展示单词列表
+ *
+ * OCR 使用 OCR.space 免费 API，识别失败时自动降级为演示模式。
+ * 首次使用需在微信小程序管理后台添加 request 合法域名：
+ *   https://api.ocr.space
+ * 或在开发工具中勾选「不校验合法域名」。
  */
 var api = require('../../utils/api');
 
 Page({
   data: {
-    // 页面状态: loading / ready / error
+    // 页面状态: loading / ready / error / demo
     status: 'loading',
     // 错误消息
     errorMsg: '',
+    // 提示信息（演示模式说明等）
+    noticeMsg: '',
     // 单词列表 [{word, meaning, checked}]
     wordList: [],
     // 已选数量
@@ -20,6 +27,8 @@ Page({
     imagePath: '',
     // 是否为演示模式
     demoMode: false,
+    // OCR API 返回的提示信息
+    ocrHint: '',
   },
 
   onLoad(options) {
@@ -37,12 +46,13 @@ Page({
 
   /**
    * 调用 API 进行 OCR 识别 + 词典查词
-   * 
+   *
    * 流程：
-   *   1. 调用 api.recognizeImage（演示模式返回空结果）
-   *   2. 如为演示模式，使用预设示例单词 + 本地词典查词
-   *   3. 构建前端展示列表
-   * 
+   *   1. 调用 api.recognizeImage（真实 OCR 或降级演示模式）
+   *   2. 如为演示模式，提示用户配置域名白名单后可使用真实 OCR
+   *   3. 调用本地词典批量查词
+   *   4. 构建前端展示列表
+   *
    * @param {string} imagePath - 图片临时路径
    */
   _startOcr: function (imagePath) {
@@ -63,10 +73,31 @@ Page({
 
       var words = ocrRes.data.words || [];
       var isDemo = ocrRes.data.demo_mode === true;
+      var hint = ocrRes.data.hint || '';
 
-      // 演示模式：使用预设的示例单词列表来展示词典查询功能
-      if (isDemo && words.length === 0) {
-        // 预设 10 个演示单词，涵盖 AI/技术领域高频词汇
+      // 演示模式说明
+      if (isDemo) {
+        // 提示用户如何启用真实 OCR
+        that.setData({
+          ocrHint: hint,
+          noticeMsg: '当前为演示模式。使用真实 OCR 需在微信小程序管理后台「开发 → 开发管理 → 开发设置 → 服务器域名」中添加 request 合法域名：https://api.ocr.space',
+          status: 'demo',
+        });
+      }
+
+      // 如果真实 OCR 没识别到单词，也不填充演示数据
+      // 让用户知道图片中没识别到英文单词
+      if (words.length === 0 && !isDemo) {
+        wx.hideLoading();
+        that.setData({
+          status: 'error',
+          errorMsg: '未识别到英文单词，请确保图片中包含清晰的英文文字',
+        });
+        return;
+      }
+
+      // 演示模式下如果也没有识别到单词，使用演示数据
+      if (words.length === 0 && isDemo) {
         words = [
           'algorithm',
           'artificial',
@@ -79,16 +110,6 @@ Page({
           'deploy',
           'pipeline',
         ];
-      }
-
-      // 如果没有单词，给出错误提示
-      if (words.length === 0) {
-        wx.hideLoading();
-        that.setData({
-          status: 'error',
-          errorMsg: '未识别到任何英文单词，请尝试更清晰的图片',
-        });
-        return;
       }
 
       // 步骤 2：调用本地词典查词（批量查询释义）
